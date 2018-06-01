@@ -4,13 +4,11 @@ import com.alibaba.fastjson.JSON;
 
 import com.example.demo.base.response.Response;
 import com.example.demo.entity.UserVO;
-import com.example.demo.service.UserService;
+import com.example.demo.service.RuiUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,11 +21,11 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private RuiUserService ruiUserService;
 
     @RequestMapping(value = "/{id}")
     public ModelAndView showUserInfo(ModelAndView modelAndView, @PathVariable("id")int id) {
-        Response<UserVO> user = userService.getUserById(id);
+        Response<UserVO> user = ruiUserService.getUserById(id);
         modelAndView.setViewName("/user/view");
         modelAndView.addObject("user", JSON.toJSONString(user));
         return modelAndView;
@@ -36,7 +34,7 @@ public class UserController {
     @RequestMapping(value = "/list")
     public ModelAndView listUsers(ModelAndView modelAndView) {
         modelAndView.setViewName("/list");
-        Response<List<UserVO>> userList = userService.getAllUser();
+        Response<List<UserVO>> userList = ruiUserService.getAllUser();
         modelAndView.addObject("userList", JSON.toJSONString(userList));
         return modelAndView;
     }
@@ -44,8 +42,14 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Response createUser(@RequestBody UserVO vo) {
-        Response<Void> response = userService.createUser(vo);
+        Response<Void> response = ruiUserService.createUser(vo);
         return response.isSuccess() ? Response.success() : Response.fail(response.getMsg());
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public Response deleteUser(@RequestBody UserVO vo) {
+        Response<Void> response = ruiUserService.createUser(vo);
+        return response.isSuccess() ? Response.success() : Response.fail(response.getMsg());
+    }
 }

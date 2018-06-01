@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.entity.po;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -12,7 +12,7 @@ import java.util.Date;
  * @Since 2018/5/31
  */
 @TableName("rui_user")
-public class UserPO {
+public class RuiUserPO {
 
     /**
      *
@@ -41,6 +41,9 @@ public class UserPO {
      */
     @TableField(value="user_psw")
     private String userPsw;
+
+    @TableField(value = "last_login_time")
+    private Date lastLoginTime;
 
     /**
      * 用户状态,
@@ -114,6 +117,14 @@ public class UserPO {
 
     public void setUserPsw(String userPsw) {
         this.userPsw = userPsw;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 
     public Integer getUserStatus() {

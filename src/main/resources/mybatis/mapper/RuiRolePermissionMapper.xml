@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="3.mapper.RuiRolePermissionMapper">
+
+	<resultMap id="BaseResultMap" type="com.example.demo.entity.po.RuiRolePermissionPO">
+		    <result column="id" property="id" />
+		    <result column="rid" property="rid" />
+		    <result column="pid" property="pid" />
+		    <result column="is_delete" property="isDelete" />
+		    <result column="create_time" property="createTime" />
+		    <result column="update_time" property="updateTime" />
+		    <result column="create_by" property="createBy" />
+		    <result column="update_by" property="updateBy" />
+	</resultMap>
+	
+	<sql id="select_content">	
+				<if test="e.id != null and e.id != '' ">
+					AND t.ID = #{e.id}
+				</if>
+				<if test="e.rid != null and e.rid != '' ">
+					AND t.RID = #{e.rid}
+				</if>
+				<if test="e.pid != null and e.pid != '' ">
+					AND t.PID = #{e.pid}
+				</if>
+				<if test="e.isDelete != null and e.isDelete != '' ">
+					AND t.IS_DELETE = #{e.isDelete}
+				</if>
+				<if test="e.createTime != null and e.createTime != '' ">
+					AND t.CREATE_TIME = #{e.createTime}
+				</if>
+				<if test="e.updateTime != null and e.updateTime != '' ">
+					AND t.UPDATE_TIME = #{e.updateTime}
+				</if>
+				<if test="e.createBy != null and e.createBy != '' ">
+					AND t.CREATE_BY = #{e.createBy}
+				</if>
+				<if test="e.updateBy != null and e.updateBy != '' ">
+					AND t.UPDATE_BY = #{e.updateBy}
+				</if>
+	</sql>
+
+</mapper>

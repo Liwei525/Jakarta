@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.example.demo.entity.UserPO;
+import com.example.demo.entity.po.RuiUserPO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.List;
  * @Since 2018/5/31
  */
 @Repository
-public interface UserMapper extends BaseMapper<UserPO> {
-    UserPO selectById(int id);
+public interface RuiUserMapper extends BaseMapper<RuiUserPO> {
+    RuiUserPO selectById(int id);
 
-    List<UserPO> selectAll();
+    List<RuiUserPO> selectAll();
 
-    int insertUser(UserPO po);
+    int insertUser(RuiUserPO po);
 }

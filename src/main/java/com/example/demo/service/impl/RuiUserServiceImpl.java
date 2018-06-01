@@ -4,11 +4,12 @@ import com.alibaba.fastjson.JSON;
 
 import com.example.demo.base.enums.ResponseEnum;
 import com.example.demo.base.response.Response;
+import com.example.demo.base.utils.Base64Util;
 import com.example.demo.base.utils.BeanCopyUtil;
-import com.example.demo.entity.UserPO;
+import com.example.demo.entity.po.RuiUserPO;
 import com.example.demo.entity.UserVO;
-import com.example.demo.mapper.UserMapper;
-import com.example.demo.service.UserService;
+import com.example.demo.mapper.RuiUserMapper;
+import com.example.demo.service.RuiUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,13 @@ import static com.example.demo.base.enums.NumberEnum.*;
  * @author CHENGRui
  * @Since 2018/5/31
  */
-@Service(value = "userService")
-public class UserServiceImpl implements UserService {
+@Service(value = "ruiUserService")
+public class RuiUserServiceImpl implements RuiUserService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LoggerFactory.getLogger(RuiUserService.class);
 
     @Autowired
-    private UserMapper userMapper;
+    private RuiUserMapper ruiUserMapper;
 
 
     @Override
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
             return Response.fail(ResponseEnum.PARAMETER_ERROR.getName());
         }
         try {
-            UserPO po = userMapper.selectById(id);
+            RuiUserPO po = ruiUserMapper.selectById(id);
             logger.info(JSON.toJSONString(po));
             return Response.success(BeanCopyUtil.copy(po, UserVO.class));
         } catch (Exception e) {
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Response<List<UserVO>> getAllUser() {
         try {
-            List<UserPO> poList = userMapper.selectAll();
+            List<RuiUserPO> poList = ruiUserMapper.selectAll();
             return Response.success(BeanCopyUtil.copyList(poList, UserVO.class));
         } catch (Exception e) {
             logger.error("getUserById fail:", e);
@@ -66,11 +67,11 @@ public class UserServiceImpl implements UserService {
             return Response.fail(ResponseEnum.PARAMETER_ERROR.getName());
         }
         try {
-            UserPO po = BeanCopyUtil.copy(vo, UserPO.class);
+            RuiUserPO po = BeanCopyUtil.copy(vo, RuiUserPO.class);
             po.setUserStatus(ONE.getCode());
             po.setCreateTime(new Date());
-            po.setUserPsw(po.getUserPsw());
-            int i = userMapper.insertUser(po);
+            po.setUserPsw(Base64Util.encryptBASE64(po.getUserPsw()));
+            int i = ruiUserMapper.insertUser(po);
             if (i <= ZERO.getCode()) {
                 return Response.fail(ResponseEnum.SERVER_ERROR.getName());
             }
@@ -79,5 +80,10 @@ public class UserServiceImpl implements UserService {
             return Response.fail(e.getMessage());
         }
         return Response.success();
+    }
+
+    @Override
+    public Response<Void> deleteUser(UserVO vo) {
+        return Response.success("TODO");
     }
 }
