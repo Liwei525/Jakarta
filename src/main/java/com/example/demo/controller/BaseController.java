@@ -1,8 +1,5 @@
 package com.example.demo.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.example.demo.entity.UserVO;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 

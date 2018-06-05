@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.base.response.Response;
-import com.example.demo.entity.UserVO;
+import com.example.demo.entity.vo.RuiUserVO;
 
 import java.util.List;
 
@@ -11,11 +11,13 @@ import java.util.List;
  */
 public interface RuiUserService {
 
-    Response<UserVO> getUserById(int id);
+    Response<RuiUserVO> getUserById(int id);
 
-    Response<List<UserVO>> getAllUser();
+    Response<List<RuiUserVO>> getAllUser();
 
-    Response<Void> createUser(UserVO vo);
+    Response<Void> createUser(RuiUserVO vo);
 
-    Response<Void> deleteUser(UserVO vo);
+    Response<Void> deleteUser(RuiUserVO vo);
+
+    Response<RuiUserVO> findByName(String userName);
 }

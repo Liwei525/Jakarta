@@ -1,5 +1,7 @@
 package com.example.demo.base.config.shiro;
 
+
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
@@ -77,8 +79,3 @@ public class ShiroConfig {
         return myShiroRealm;
     }
 }
-
-作者：z77z
-        链接：https://www.jianshu.com/p/672abf94a857
-        來源：简书
-        著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.mapper.RuiRolePermissionMapper">
+<mapper namespace="com.example.demo.mapper.RuiUserRoleMapper">
 
-	<resultMap id="BaseResultMap" type="com.example.demo.entity.po.RuiRolePermissionPO">
+	<resultMap id="BaseResultMap" type="com.example.demo.entity.po.RuiUserRolePO">
 		    <result column="id" property="id" />
+		    <result column="uid" property="uid" />
 		    <result column="rid" property="rid" />
-		    <result column="pid" property="pid" />
 		    <result column="is_delete" property="isDelete" />
 		    <result column="create_time" property="createTime" />
 		    <result column="update_time" property="updateTime" />
@@ -17,11 +17,11 @@
 				<if test="e.id != null and e.id != '' ">
 					AND t.ID = #{e.id}
 				</if>
+				<if test="e.uid != null and e.uid != '' ">
+					AND t.UID = #{e.uid}
+				</if>
 				<if test="e.rid != null and e.rid != '' ">
 					AND t.RID = #{e.rid}
-				</if>
-				<if test="e.pid != null and e.pid != '' ">
-					AND t.PID = #{e.pid}
 				</if>
 				<if test="e.isDelete != null and e.isDelete != '' ">
 					AND t.IS_DELETE = #{e.isDelete}
@@ -39,5 +39,14 @@
 					AND t.UPDATE_BY = #{e.updateBy}
 				</if>
 	</sql>
+
+	<sql id="baseSql">
+		SELECT id, uid, rid, create_by FROM rui_user_role
+	</sql>
+
+    <select id="selectByUserId" resultType="com.example.demo.entity.po.RuiUserRolePO">
+		<include refid="baseSql"/>
+		WHERE uid = #{uid}
+	</select>
 
 </mapper>

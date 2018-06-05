@@ -6,10 +6,15 @@ import com.example.demo.base.enums.ResponseEnum;
 import com.example.demo.base.response.Response;
 import com.example.demo.base.utils.Base64Util;
 import com.example.demo.base.utils.BeanCopyUtil;
+import com.example.demo.entity.po.RuiRolePO;
 import com.example.demo.entity.po.RuiUserPO;
-import com.example.demo.entity.UserVO;
+import com.example.demo.entity.po.RuiUserRolePO;
+import com.example.demo.entity.vo.RuiUserVO;
+import com.example.demo.mapper.RuiRoleMapper;
 import com.example.demo.mapper.RuiUserMapper;
+import com.example.demo.mapper.RuiUserRoleMapper;
 import com.example.demo.service.RuiUserService;
+import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +39,22 @@ public class RuiUserServiceImpl implements RuiUserService {
     @Autowired
     private RuiUserMapper ruiUserMapper;
 
+    @Autowired
+    private RuiRoleMapper ruiRoleMapper;
+
+    @Autowired
+    private RuiUserRoleMapper ruiUserRoleMapper;
+
 
     @Override
-    public Response<UserVO> getUserById(int id) {
+    public Response<RuiUserVO> getUserById(int id) {
         if (id <= ZERO.getCode()) {
             return Response.fail(ResponseEnum.PARAMETER_ERROR.getName());
         }
         try {
             RuiUserPO po = ruiUserMapper.selectById(id);
             logger.info(JSON.toJSONString(po));
-            return Response.success(BeanCopyUtil.copy(po, UserVO.class));
+            return Response.success(BeanCopyUtil.copy(po, RuiUserVO.class));
         } catch (Exception e) {
             logger.error("getUserById fail:", e);
             return Response.fail(e.getMessage());
@@ -51,10 +62,10 @@ public class RuiUserServiceImpl implements RuiUserService {
     }
 
     @Override
-    public Response<List<UserVO>> getAllUser() {
+    public Response<List<RuiUserVO>> getAllUser() {
         try {
             List<RuiUserPO> poList = ruiUserMapper.selectAll();
-            return Response.success(BeanCopyUtil.copyList(poList, UserVO.class));
+            return Response.success(BeanCopyUtil.copyList(poList, RuiUserVO.class));
         } catch (Exception e) {
             logger.error("getUserById fail:", e);
             return null;
@@ -62,7 +73,7 @@ public class RuiUserServiceImpl implements RuiUserService {
     }
 
     @Override
-    public Response<Void> createUser(UserVO vo) {
+    public Response<Void> createUser(RuiUserVO vo) {
         if (ObjectUtils.isEmpty(vo) || StringUtils.isEmpty(vo.getUserName()) || StringUtils.isEmpty(vo.getUserPsw())) {
             return Response.fail(ResponseEnum.PARAMETER_ERROR.getName());
         }
@@ -83,7 +94,24 @@ public class RuiUserServiceImpl implements RuiUserService {
     }
 
     @Override
-    public Response<Void> deleteUser(UserVO vo) {
+    public Response<Void> deleteUser(RuiUserVO vo) {
         return Response.success("TODO");
+    }
+
+    @Override
+    public Response<RuiUserVO> findByName(String userName) {
+        if (StringUtils.isEmpty(userName)) {
+            return Response.fail(ResponseEnum.PARAMETER_ERROR.getName());
+        }
+        try {
+            RuiUserPO po = ruiUserMapper.selectByName(userName);
+            RuiUserRolePO ruiUserRolePO = ruiUserRoleMapper.selectByUserId(po.getId());
+            RuiRolePO rolePOs = ruiRoleMapper.selectById(ruiUserRolePO.getRid());
+            logger.info(JSON.toJSONString(po));
+            return Response.success(BeanCopyUtil.copy(po, RuiUserVO.class));
+        } catch (Exception e) {
+            logger.error("getUserByName fail:", e);
+            return Response.fail(e.getMessage());
+        }
     }
 }

@@ -1,10 +1,12 @@
-package com.example.demo.entity;
+package com.example.demo.entity.vo;
+
+import java.util.List;
 
 /**
  * @author CHENGRui
  * @Since 2018/5/31
  */
-public class UserVO {
+public class RuiUserVO {
 
     /**
      *
@@ -14,27 +16,33 @@ public class UserVO {
 
     /**
      * 用户名,
-     *
      */
     private String userName;
 
     /**
      * 昵称,
-     *
      */
     private String nickname;
 
     /**
      * 密码,
-     *
      */
     private String userPsw;
 
     /**
      * 用户状态,
-     *
      */
     private Integer userStatus;
+
+    private List<RuiRoleVO> roles;
+
+    public List<RuiRoleVO> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RuiRoleVO> roles) {
+        this.roles = roles;
+    }
 
     public Integer getId() {
         return id;

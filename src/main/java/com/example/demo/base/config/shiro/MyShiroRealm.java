@@ -1,8 +1,13 @@
 package com.example.demo.base.config.shiro;
 
-import com.example.demo.entity.po.RuiUserPO;
+import com.example.demo.entity.vo.RuiPermissionVO;
+import com.example.demo.entity.vo.RuiRoleVO;
+import com.example.demo.entity.vo.RuiUserVO;
 import com.example.demo.service.RuiUserService;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -26,15 +31,15 @@ public class MyShiroRealm extends AuthorizingRealm {
         //获取登录用户名
         String name= (String) principalCollection.getPrimaryPrincipal();
         //查询用户名称
-        RuiUserPO user = ruiUserService.findByName(name);
+        RuiUserVO user = ruiUserService.findByName(name).getData();
         //添加角色和权限
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        for (Role role:user.getRoles()) {
+        for (RuiRoleVO role:user.getRoles()) {
             //添加角色
-            simpleAuthorizationInfo.addRole(role.getRoleName());
-            for (Permission permission:role.getPermissions()) {
+            simpleAuthorizationInfo.addRole(role.getName());
+            for (RuiPermissionVO permission:role.getPermissions()) {
                 //添加权限
-                simpleAuthorizationInfo.addStringPermission(permission.getPermission());
+                simpleAuthorizationInfo.addStringPermission(permission.getName());
             }
         }
         return simpleAuthorizationInfo;
@@ -49,13 +54,13 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         //获取用户信息
         String name = authenticationToken.getPrincipal().toString();
-        User user = loginService.findByName(name);
+        RuiUserVO user = ruiUserService.findByName(name).getData();
         if (user == null) {
             //这里返回后会报出对应异常
             return null;
         } else {
             //这里验证authenticationToken和simpleAuthenticationInfo的信息
-            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword().toString(), getName());
+            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getUserPsw(), getName());
             return simpleAuthenticationInfo;
         }
     }

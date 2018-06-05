@@ -39,4 +39,10 @@
         WHERE is_delete = 0
     </select>
 
+    <select id="selectByName" resultType="com.example.demo.entity.po.RuiUserPO">
+        <include refid="baseSelect"/>
+        WHERE is_delete = 0
+        AND user_name = #{userName}
+    </select>
+
 </mapper>

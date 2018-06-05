@@ -17,4 +17,6 @@ public interface RuiUserMapper extends BaseMapper<RuiUserPO> {
     List<RuiUserPO> selectAll();
 
     int insertUser(RuiUserPO po);
+
+    RuiUserPO selectByName(String userName);
 }
