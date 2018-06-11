@@ -6,9 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
     <script>
-        window.INIT_APP_DATA = {
-            user :${user!''}
-        }
+
     </script>
 </head>
 <body>

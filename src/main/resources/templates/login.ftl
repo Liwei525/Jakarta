@@ -6,9 +6,9 @@
     <link href="/css/common.css" rel="stylesheet">
 </head>
 <style>
-    window.INIT_APP_DATA = {
-        user :${user!''}
-    }
+    <#--window.INIT_APP_DATA = {-->
+        <#--user :${user!''}-->
+    <#--}-->
 </style>
 <body>
 <div id="app">

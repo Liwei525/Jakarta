@@ -1,17 +1,59 @@
 package com.example.demo.controller;
 
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @author CHENGRui
  * @Since 2018/5/31
  */
+@RestController
 public class BaseController {
 
-    @RequestMapping(value = "/error")
-    public ModelAndView showUserInfo(ModelAndView modelAndView) {
+    @RequestMapping(value = "/index")
+    public ModelAndView index(ModelAndView modelAndView) {
+        modelAndView.setViewName("/index");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/sorry")
+    public ModelAndView error(ModelAndView modelAndView) {
         modelAndView.setViewName("/error");
+        return modelAndView;
+    }
+
+    @RequestMapping("/login")
+    public ModelAndView login(ModelAndView modelAndView, HttpServletRequest request, Map<String, Object> map) throws Exception{
+        System.out.println("HomeController.login()");
+        // 登录失败从request中获取shiro处理的异常信息。
+        // shiroLoginFailure:就是shiro异常类的全类名.
+        String exception = (String) request.getAttribute("shiroLoginFailure");
+        System.out.println("exception=" + exception);
+        String msg = "";
+        if (exception != null) {
+            if (UnknownAccountException.class.getName().equals(exception)) {
+                System.out.println("UnknownAccountException -- > 账号不存在：");
+                msg = "UnknownAccountException -- > 账号不存在：";
+            } else if (IncorrectCredentialsException.class.getName().equals(exception)) {
+                System.out.println("IncorrectCredentialsException -- > 密码不正确：");
+                msg = "IncorrectCredentialsException -- > 密码不正确：";
+            } else if ("kaptchaValidateFailed".equals(exception)) {
+                System.out.println("kaptchaValidateFailed -- > 验证码错误");
+                msg = "kaptchaValidateFailed -- > 验证码错误";
+            } else {
+                msg = "else >> "+exception;
+                System.out.println("else -- >" + exception);
+            }
+        }
+        map.put("msg", msg);
+        // 此方法不处理登录成功,由shiro进行处理
+        modelAndView.setViewName("/login");
         return modelAndView;
     }
 }
