@@ -27,8 +27,8 @@
         </el-aside>
 
         <el-container>
-            <el-header style="text-align: right; font-size: 12px">
-                <span>王小虎</span>
+            <el-header>
+                <el-button type="primary" icon="el-icon-edit" @click="editUser(0)" >新建用户</el-button>
             </el-header>
 
             <el-main>
@@ -51,7 +51,7 @@
                             width="333">
                     </el-table-column>
                     <el-table-column
-                            prop="lastLoginTime"
+                            prop="lastLoginTimeDesc"
                             label="最后登陆时间"
                             width="333">
                     </el-table-column>
@@ -59,7 +59,7 @@
                             label="操作"
                             width="333">
                         <template scope="scope">
-                            <el-button type="primary" icon="el-icon-edit" @click="editUser(scope.row)" >修改</el-button>
+                            <el-button type="primary" icon="el-icon-edit" @click="editUser(scope.row.id)" >修改</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -70,6 +70,8 @@
 </body>
 <style>
     .el-header {
+        text-align: right;
+        font-size: 12px;
         background-color: #B3C0D1;
         color: #333;
         line-height: 60px;
@@ -96,8 +98,7 @@
             }
         },
         methods: {
-            editUser(row) {
-                const id = row.id;
+            editUser(id) {
                 window.open('/user/' + id);
             }
         }

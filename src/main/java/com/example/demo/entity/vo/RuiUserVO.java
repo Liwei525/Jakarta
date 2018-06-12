@@ -1,6 +1,7 @@
 package com.example.demo.entity.vo;
 
 import com.example.demo.entity.enums.UserStatusEnum;
+import com.xiaoleilu.hutool.date.DateUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,8 @@ public class RuiUserVO {
      * 最后登陆时间
      */
     private Date lastLoginTime;
+
+    private String lastLoginTimeDesc;
 
     /**
      * 密码,
@@ -75,6 +78,7 @@ public class RuiUserVO {
 
     public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
+        this.lastLoginTimeDesc = DateUtil.formatDateTime(lastLoginTime);
     }
 
     public String getUserPsw() {
@@ -92,6 +96,14 @@ public class RuiUserVO {
     public void setUserStatus(Integer userStatus) {
         this.userStatus = userStatus;
         this.userStatusDesc = UserStatusEnum.getDisplay(userStatus);
+    }
+
+    public String getLastLoginTimeDesc() {
+        return lastLoginTimeDesc;
+    }
+
+    public void setLastLoginTimeDesc(String lastLoginTimeDesc) {
+        this.lastLoginTimeDesc = lastLoginTimeDesc;
     }
 
     public String getUserStatusDesc() {

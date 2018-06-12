@@ -26,9 +26,15 @@ public class UserController {
 
     @RequestMapping(value = "/{id}")
     public ModelAndView showUserInfo(ModelAndView modelAndView, @PathVariable("id")int id) {
-        Response<RuiUserVO> user = ruiUserService.getUserById(id);
+        RuiUserVO user;
+        if (id <= 0) {
+            user = new RuiUserVO();
+        } else {
+            user = ruiUserService.getUserById(id).getData();
+        }
         modelAndView.setViewName("/user/view");
         modelAndView.addObject("user", JSON.toJSONString(user));
+        baseUserModelSet(modelAndView);
         return modelAndView;
     }
 
@@ -37,14 +43,14 @@ public class UserController {
         modelAndView.setViewName("/user/list");
         Response<List<RuiUserVO>> response = ruiUserService.getAllUser();
         modelAndView.addObject("userList", JSON.toJSONString(response.getData()));
-        modelAndView.addObject("statusList", JSON.toJSONString(UserStatusEnum.getValues()));
+        baseUserModelSet(modelAndView);
         return modelAndView;
     }
 
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Response createUser(@RequestBody RuiUserVO vo) {
-        Response<Void> response = ruiUserService.createUser(vo);
+        Response<Void> response = ruiUserService.deleteUser(vo);
         return response.isSuccess() ? Response.success() : Response.fail(response.getMsg());
     }
 
@@ -53,5 +59,9 @@ public class UserController {
     public Response deleteUser(@RequestBody RuiUserVO vo) {
         Response<Void> response = ruiUserService.createUser(vo);
         return response.isSuccess() ? Response.success() : Response.fail(response.getMsg());
+    }
+
+    private void baseUserModelSet(ModelAndView modelAndView) {
+        modelAndView.addObject("statusList", JSON.toJSONString(UserStatusEnum.getValues()));
     }
 }
