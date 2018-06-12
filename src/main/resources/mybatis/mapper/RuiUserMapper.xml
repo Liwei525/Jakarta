@@ -7,6 +7,7 @@
         <result column="nickname" property="nickname" />
         <result column="user_psw" property="userPsw" />
         <result column="user_status" property="userStatus" />
+        <result column="last_login_time" property="lastLoginTime" />
         <result column="is_delete" property="isDelete" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -15,7 +16,7 @@
     </resultMap>
 
     <sql id="baseSelect">
-        SELECT id, user_name, nickname, user_psw, user_status, create_by FROM rui_user
+        SELECT id, user_name, nickname, user_psw, user_status, last_login_time, create_by FROM rui_user
     </sql>
 
     <insert id="insertUser" parameterType="com.example.demo.entity.po.RuiUserPO">

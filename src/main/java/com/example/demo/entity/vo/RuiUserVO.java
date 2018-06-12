@@ -1,7 +1,6 @@
 package com.example.demo.entity.vo;
 
-import com.example.demo.entity.enums.UserStatusEnum;
-
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,8 +10,7 @@ import java.util.List;
 public class RuiUserVO {
 
     /**
-     *
-     *
+     * 自增id
      */
     private Integer id;
 
@@ -27,6 +25,11 @@ public class RuiUserVO {
     private String nickname;
 
     /**
+     * 最后登陆时间
+     */
+    private Date lastLoginTime;
+
+    /**
      * 密码,
      */
     private String userPsw;
@@ -35,17 +38,10 @@ public class RuiUserVO {
      * 用户状态,
      */
     private Integer userStatus;
+
     private String userStatusDesc;
 
     private List<RuiRoleVO> roles;
-
-    public List<RuiRoleVO> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<RuiRoleVO> roles) {
-        this.roles = roles;
-    }
 
     public Integer getId() {
         return id;
@@ -71,6 +67,14 @@ public class RuiUserVO {
         this.nickname = nickname;
     }
 
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
     public String getUserPsw() {
         return userPsw;
     }
@@ -85,7 +89,6 @@ public class RuiUserVO {
 
     public void setUserStatus(Integer userStatus) {
         this.userStatus = userStatus;
-        this.userStatusDesc = UserStatusEnum.getDisplay(userStatus);
     }
 
     public String getUserStatusDesc() {
@@ -94,5 +97,13 @@ public class RuiUserVO {
 
     public void setUserStatusDesc(String userStatusDesc) {
         this.userStatusDesc = userStatusDesc;
+    }
+
+    public List<RuiRoleVO> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RuiRoleVO> roles) {
+        this.roles = roles;
     }
 }
