@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.alibaba.fastjson.JSON;
 
 import com.example.demo.base.response.Response;
+import com.example.demo.entity.enums.UserStatusEnum;
 import com.example.demo.entity.vo.RuiUserVO;
 import com.example.demo.service.RuiUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,10 @@ public class UserController {
 
     @RequestMapping(value = "/list")
     public ModelAndView listUsers(ModelAndView modelAndView) {
-        modelAndView.setViewName("/list");
-        Response<List<RuiUserVO>> userList = ruiUserService.getAllUser();
-        modelAndView.addObject("userList", JSON.toJSONString(userList));
+        modelAndView.setViewName("/user/list");
+        Response<List<RuiUserVO>> response = ruiUserService.getAllUser();
+        modelAndView.addObject("userList", JSON.toJSONString(response.getData()));
+        modelAndView.addObject("statusList", JSON.toJSONString(UserStatusEnum.getValues()));
         return modelAndView;
     }
 

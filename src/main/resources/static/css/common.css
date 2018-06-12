@@ -1,7 +1,9 @@
-h2 {color:red}
+h2 {
+    color: #d438ff
+}
 body {
     font-family:"Microsoft YaHei";
-    color: azure;
+    color: #f0ffff;
 }
 #app {
     width: 600px;

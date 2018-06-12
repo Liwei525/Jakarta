@@ -1,5 +1,7 @@
 package com.example.demo.entity.vo;
 
+import com.example.demo.entity.enums.UserStatusEnum;
+
 import java.util.List;
 
 /**
@@ -33,6 +35,7 @@ public class RuiUserVO {
      * 用户状态,
      */
     private Integer userStatus;
+    private String userStatusDesc;
 
     private List<RuiRoleVO> roles;
 
@@ -82,5 +85,14 @@ public class RuiUserVO {
 
     public void setUserStatus(Integer userStatus) {
         this.userStatus = userStatus;
+        this.userStatusDesc = UserStatusEnum.getDisplay(userStatus);
+    }
+
+    public String getUserStatusDesc() {
+        return userStatusDesc;
+    }
+
+    public void setUserStatusDesc(String userStatusDesc) {
+        this.userStatusDesc = userStatusDesc;
     }
 }
