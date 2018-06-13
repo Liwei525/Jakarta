@@ -7,6 +7,7 @@ import com.example.demo.entity.enums.UserStatusEnum;
 import com.example.demo.entity.vo.RuiUserVO;
 import com.example.demo.service.RuiUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,11 +27,12 @@ public class UserController {
 
     @RequestMapping(value = "/{id}")
     public ModelAndView showUserInfo(ModelAndView modelAndView, @PathVariable("id")int id) {
-        RuiUserVO user;
-        if (id <= 0) {
-            user = new RuiUserVO();
-        } else {
+        RuiUserVO user = null;
+        if (id >= 0) {
             user = ruiUserService.getUserById(id).getData();
+        }
+        if (ObjectUtils.isEmpty(user)) {
+            user = new RuiUserVO();
         }
         modelAndView.setViewName("/user/view");
         modelAndView.addObject("user", JSON.toJSONString(user));
@@ -50,14 +52,14 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Response createUser(@RequestBody RuiUserVO vo) {
-        Response<Void> response = ruiUserService.deleteUser(vo);
+        Response<Void> response = ruiUserService.createUser(vo);
         return response.isSuccess() ? Response.success() : Response.fail(response.getMsg());
     }
 
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public Response deleteUser(@RequestBody RuiUserVO vo) {
-        Response<Void> response = ruiUserService.createUser(vo);
+        Response<Void> response = ruiUserService.deleteUser(vo);
         return response.isSuccess() ? Response.success() : Response.fail(response.getMsg());
     }
 
