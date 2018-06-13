@@ -27,7 +27,7 @@
         </el-aside>
 
         <el-container>
-            <el-header>
+            <el-header style="text-align: right; font-size: 12px; background-color: #B3C0D1; line-height: 60px;">
                 <el-button type="primary" icon="el-icon-edit" @click="editUser(0)" >新建用户</el-button>
             </el-header>
 
@@ -68,19 +68,6 @@
     </el-container>
 </div>
 </body>
-<style>
-    .el-header {
-        text-align: right;
-        font-size: 12px;
-        background-color: #B3C0D1;
-        color: #333;
-        line-height: 60px;
-    }
-
-    .el-aside {
-        color: #333;
-    }
-</style>
 <!-- import Vue before Element -->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- import JavaScript -->

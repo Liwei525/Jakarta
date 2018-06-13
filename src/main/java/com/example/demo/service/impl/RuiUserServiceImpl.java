@@ -73,7 +73,7 @@ public class RuiUserServiceImpl implements RuiUserService {
     }
 
     @Override
-    public Response<Void> createUser(RuiUserVO vo) {
+    public Response<Void> createUser(RuiUserVO vo, String createBy) {
         if (ObjectUtils.isEmpty(vo) || StringUtils.isEmpty(vo.getUserName()) || StringUtils.isEmpty(vo.getUserPsw())) {
             return Response.fail(ResponseEnum.PARAMETER_ERROR.getName());
         }
@@ -82,6 +82,7 @@ public class RuiUserServiceImpl implements RuiUserService {
             po.setUserStatus(ONE.getCode());
             po.setCreateTime(new Date());
             po.setUserPsw(Base64Util.encryptBASE64(po.getUserPsw()));
+            po.setCreateBy(createBy);
             int i = ruiUserMapper.insertUser(po);
             if (i <= ZERO.getCode()) {
                 return Response.fail(ResponseEnum.SERVER_ERROR.getName());
@@ -105,9 +106,9 @@ public class RuiUserServiceImpl implements RuiUserService {
         }
         try {
             RuiUserPO po = ruiUserMapper.selectByName(userName);
-            RuiUserRolePO ruiUserRolePO = ruiUserRoleMapper.selectByUserId(po.getId());
-            RuiRolePO rolePOs = ruiRoleMapper.selectById(ruiUserRolePO.getRid());
-            logger.info(JSON.toJSONString(po));
+            if (ObjectUtils.isEmpty(po)) {
+                po = new RuiUserPO();
+            }
             return Response.success(BeanCopyUtil.copy(po, RuiUserVO.class));
         } catch (Exception e) {
             logger.error("getUserByName fail:", e);

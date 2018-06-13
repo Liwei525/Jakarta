@@ -1,15 +1,13 @@
-<#--<!DOCTYPE html>-->
-<#--<html>-->
-<#--<head lang="en">-->
-    <#--<title>错误</title>-->
-    <#--<link href="/css/common.css" rel="stylesheet">-->
-    <#--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
-    <#--<script type="text/javascript" src="/js/common.js"></script>-->
-    <#--<script>-->
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>错误</title>
+    <link href="/css/common.css" rel="stylesheet">
+    <script>
 
-    <#--</script>-->
-<#--</head>-->
-<#--<body>-->
-<#--<h2>有错误发生~~233<h2>-->
-<#--</body>-->
-<#--</html>-->
+    </script>
+</head>
+<body>
+<h2>有错误发生~~233<h2>
+</body>
+</html>

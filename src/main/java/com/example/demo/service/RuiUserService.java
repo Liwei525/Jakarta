@@ -15,7 +15,7 @@ public interface RuiUserService {
 
     Response<List<RuiUserVO>> getAllUser();
 
-    Response<Void> createUser(RuiUserVO vo);
+    Response<Void> createUser(RuiUserVO vo, String createBy);
 
     Response<Void> deleteUser(RuiUserVO vo);
 

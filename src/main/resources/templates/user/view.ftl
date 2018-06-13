@@ -64,7 +64,6 @@
     </el-container>
 </div>
 </body>
-
 <!-- import Vue before Element -->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- import JavaScript -->
@@ -85,7 +84,7 @@
         },
         methods: {
             backUserList() {
-                window.open('/user/list',_self);
+                window.open('/user/list', '_self');
             },
             onSubmit() {
                 console.log('submit!');
@@ -96,6 +95,7 @@
                 })
                 .then(function (res) {
                     console.log(res);
+                    window.open('/user/list', '_self');
                 })
                 .catch(function (err) {
                     console.log(err);

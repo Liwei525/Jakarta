@@ -5,3 +5,11 @@ body {
     font-family:"Microsoft YaHei";
     color: #f0ffff;
 }
+.el-header {
+    background-color: #B3C0D1;
+    color: #333;
+    line-height: 60px;
+}
+.el-container .el-input {
+    width:222px;
+}

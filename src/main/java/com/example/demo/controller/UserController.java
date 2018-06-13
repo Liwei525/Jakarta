@@ -51,8 +51,12 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public Response createUser(@RequestBody RuiUserVO vo) {
-        Response<Void> response = ruiUserService.createUser(vo);
+    public Response createUser(@RequestBody RuiUserVO vo, @ModelAttribute(value = "user") RuiUserVO user) {
+        Response isExist = ruiUserService.findByName(vo.getUserName());
+        if (isExist.isSuccess() || !ObjectUtils.isEmpty(isExist.getData())) {
+            return Response.fail("用户名已存在，请换一个=0=");
+        }
+        Response<Void> response = ruiUserService.createUser(vo, user.getUserName());
         return response.isSuccess() ? Response.success() : Response.fail(response.getMsg());
     }
 
