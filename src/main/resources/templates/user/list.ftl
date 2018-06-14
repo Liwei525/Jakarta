@@ -27,6 +27,7 @@
 
         <el-container>
             <el-header style="text-align: right; font-size: 12px; background-color: #B3C0D1; line-height: 60px;">
+                <el-button type="primary" icon="el-icon-search" @click="userListSearch()" >搜索用户</el-button>
                 <el-button type="primary" icon="el-icon-edit" @click="editUser(0)" >新建用户</el-button>
             </el-header>
 
@@ -84,12 +85,8 @@
                 statusList: statusList,
             }
         },
-        mounted: {
-            this.userListSearch();
-        },
         methods: {
             userListSearch() {
-                console.log('submit!');
                 axios.post('/user/ajax/list', {
                 })
                 .then(function (res) {
@@ -98,15 +95,7 @@
                 })
                 .catch(function (err) {
                     console.log(err);
-                });
-//                axios.get('/user/ajax/list')
-//                    .then(function(res) {
-//                        console.log(res);
-//                        this.userList = res.data.data;
-//                    })
-//                    .catch(function(err) {
-//                        alert(err);
-//                    })
+                })
             },
             editUser(id) {
                 window.open('/user/page/' + id);
