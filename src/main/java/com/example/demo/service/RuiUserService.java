@@ -11,13 +11,13 @@ import java.util.List;
  */
 public interface RuiUserService {
 
-    Response<RuiUserVO> getUserById(int id);
+    RuiUserVO getUserById(int id);
 
-    Response<List<RuiUserVO>> getAllUser();
+    List<RuiUserVO> getAllUser();
 
-    Response<Void> createUser(RuiUserVO vo, String createBy);
+    Void createUser(RuiUserVO vo, String createBy);
 
-    Response<Void> deleteUser(RuiUserVO vo);
+    Void deleteUser(RuiUserVO vo);
 
-    Response<RuiUserVO> findByName(String userName);
+    RuiUserVO findByName(String userName);
 }

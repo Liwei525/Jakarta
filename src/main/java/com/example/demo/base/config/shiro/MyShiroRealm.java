@@ -31,7 +31,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         //获取登录用户名
         String name= (String) principalCollection.getPrimaryPrincipal();
         //查询用户名称
-        RuiUserVO user = ruiUserService.findByName(name).getData();
+        RuiUserVO user = ruiUserService.findByName(name);
         //添加角色和权限
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         for (RuiRoleVO role:user.getRoles()) {
@@ -54,7 +54,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         //获取用户信息
         String name = authenticationToken.getPrincipal().toString();
-        RuiUserVO user = ruiUserService.findByName(name).getData();
+        RuiUserVO user = ruiUserService.findByName(name);
         if (user == null) {
             //这里返回后会报出对应异常
             return null;

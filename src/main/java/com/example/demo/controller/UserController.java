@@ -29,7 +29,7 @@ public class UserController {
     public ModelAndView showUserInfo(ModelAndView modelAndView, @PathVariable("id")int id) {
         RuiUserVO user = null;
         if (id >= 0) {
-            user = ruiUserService.getUserById(id).getData();
+            user = ruiUserService.getUserById(id);
         }
         if (ObjectUtils.isEmpty(user)) {
             user = new RuiUserVO();
@@ -43,8 +43,8 @@ public class UserController {
     @RequestMapping(value = "/list")
     public ModelAndView listUsers(ModelAndView modelAndView) {
         modelAndView.setViewName("/user/list");
-        Response<List<RuiUserVO>> response = ruiUserService.getAllUser();
-        modelAndView.addObject("userList", JSON.toJSONString(response.getData()));
+        List<RuiUserVO> userVOList = ruiUserService.getAllUser();
+        modelAndView.addObject("userList", JSON.toJSONString(userVOList));
         baseUserModelSet(modelAndView);
         return modelAndView;
     }
@@ -52,19 +52,15 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Response createUser(@RequestBody RuiUserVO vo, @ModelAttribute(value = "user") RuiUserVO user) {
-        Response isExist = ruiUserService.findByName(vo.getUserName());
-        if (isExist.isSuccess() || !ObjectUtils.isEmpty(isExist.getData())) {
-            return Response.fail("用户名已存在，请换一个=0=");
-        }
-        Response<Void> response = ruiUserService.createUser(vo, user.getUserName());
-        return response.isSuccess() ? Response.success() : Response.fail(response.getMsg());
+        ruiUserService.createUser(vo, user.getUserName());
+        return Response.success();
     }
 
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public Response deleteUser(@RequestBody RuiUserVO vo) {
-        Response<Void> response = ruiUserService.deleteUser(vo);
-        return response.isSuccess() ? Response.success() : Response.fail(response.getMsg());
+        ruiUserService.deleteUser(vo);
+        return Response.success();
     }
 
     private void baseUserModelSet(ModelAndView modelAndView) {

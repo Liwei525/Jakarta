@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.alibaba.fastjson.JSON;
 
 import com.example.demo.base.enums.ResponseEnum;
+import com.example.demo.base.exception.RuiRuntimeException;
 import com.example.demo.base.response.Response;
 import com.example.demo.base.utils.Base64Util;
 import com.example.demo.base.utils.BeanCopyUtil;
@@ -47,72 +48,47 @@ public class RuiUserServiceImpl implements RuiUserService {
 
 
     @Override
-    public Response<RuiUserVO> getUserById(int id) {
+    public RuiUserVO getUserById(int id) {
         if (id <= ZERO.getCode()) {
-            return Response.fail(ResponseEnum.PARAMETER_ERROR.getName());
+            throw new RuiRuntimeException(ResponseEnum.PARAMETER_ERROR.getName()+id);
         }
-        try {
-            RuiUserPO po = ruiUserMapper.selectById(id);
-            logger.info(JSON.toJSONString(po));
-            return Response.success(BeanCopyUtil.copy(po, RuiUserVO.class));
-        } catch (Exception e) {
-            logger.error("getUserById fail:", e);
-            return Response.fail(e.getMessage());
-        }
+        RuiUserPO po = ruiUserMapper.selectById(id);
+        logger.info(JSON.toJSONString(po));
+        return BeanCopyUtil.copy(po, RuiUserVO.class);
     }
 
     @Override
-    public Response<List<RuiUserVO>> getAllUser() {
-        try {
-            List<RuiUserPO> poList = ruiUserMapper.selectAll();
-            return Response.success(BeanCopyUtil.copyList(poList, RuiUserVO.class));
-        } catch (Exception e) {
-            logger.error("getUserById fail:", e);
-            return null;
-        }
+    public List<RuiUserVO> getAllUser() {
+        List<RuiUserPO> poList = ruiUserMapper.selectAll();
+        return BeanCopyUtil.copyList(poList, RuiUserVO.class);
     }
 
     @Override
-    public Response<Void> createUser(RuiUserVO vo, String createBy) {
+    public Void createUser(RuiUserVO vo, String createBy) {
         if (ObjectUtils.isEmpty(vo) || StringUtils.isEmpty(vo.getUserName()) || StringUtils.isEmpty(vo.getUserPsw())) {
-            return Response.fail(ResponseEnum.PARAMETER_ERROR.getName());
+            throw new RuiRuntimeException(ResponseEnum.PARAMETER_ERROR.getName()+JSON.toJSONString(vo+createBy));
         }
-        try {
-            RuiUserPO po = BeanCopyUtil.copy(vo, RuiUserPO.class);
-            po.setUserStatus(ONE.getCode());
-            po.setCreateTime(new Date());
-            po.setUserPsw(Base64Util.encryptBASE64(po.getUserPsw()));
-            po.setCreateBy(createBy);
-            int i = ruiUserMapper.insertUser(po);
-            if (i <= ZERO.getCode()) {
-                return Response.fail(ResponseEnum.SERVER_ERROR.getName());
-            }
-        } catch (Exception e) {
-            logger.error("createUser fail", e);
-            return Response.fail(e.getMessage());
-        }
-        return Response.success();
+        RuiUserPO po = BeanCopyUtil.copy(vo, RuiUserPO.class);
+        po.setUserStatus(ONE.getCode());
+        po.setCreateTime(new Date());
+        po.setUserPsw(Base64Util.encryptBASE64(po.getUserPsw()));
+        po.setCreateBy(createBy);
+        ruiUserMapper.insertUser(po);
+        return null;
     }
 
     @Override
-    public Response<Void> deleteUser(RuiUserVO vo) {
-        return Response.success("TODO");
+    public Void deleteUser(RuiUserVO vo) {
+        //todo
+        return null;
     }
 
     @Override
-    public Response<RuiUserVO> findByName(String userName) {
+    public RuiUserVO findByName(String userName) {
         if (StringUtils.isEmpty(userName)) {
-            return Response.fail(ResponseEnum.PARAMETER_ERROR.getName());
+            throw new RuiRuntimeException(ResponseEnum.PARAMETER_ERROR.getName()+userName);
         }
-        try {
-            RuiUserPO po = ruiUserMapper.selectByName(userName);
-            if (ObjectUtils.isEmpty(po)) {
-                po = new RuiUserPO();
-            }
-            return Response.success(BeanCopyUtil.copy(po, RuiUserVO.class));
-        } catch (Exception e) {
-            logger.error("getUserByName fail:", e);
-            return Response.fail(e.getMessage());
-        }
+        RuiUserPO po = ruiUserMapper.selectByName(userName);
+        return BeanCopyUtil.copy(po, RuiUserVO.class);
     }
 }

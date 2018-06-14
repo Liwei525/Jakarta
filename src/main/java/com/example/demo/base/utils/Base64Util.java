@@ -9,7 +9,7 @@ import sun.misc.BASE64Encoder;
  */
 public class Base64Util {
 
-    public static String encryptBASE64(String keyStr) throws Exception {
+    public static String encryptBASE64(String keyStr) {
         byte[] key = keyStr.getBytes();
         return (new BASE64Encoder()).encodeBuffer(key);
     }
