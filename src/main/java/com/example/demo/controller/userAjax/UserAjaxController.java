@@ -1,8 +1,8 @@
-package com.example.demo.controller;
+package com.example.demo.controller.userAjax;
 
 import com.alibaba.fastjson.JSON;
-
 import com.example.demo.base.response.Response;
+import com.example.demo.controller.WebAPIBaseController;
 import com.example.demo.entity.enums.UserStatusEnum;
 import com.example.demo.entity.vo.RuiUserVO;
 import com.example.demo.service.RuiUserService;
@@ -19,14 +19,14 @@ import java.util.List;
  * @Since 2018/5/31
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/user/ajax")
+public class UserAjaxController extends WebAPIBaseController {
 
     @Autowired
     private RuiUserService ruiUserService;
 
-    @RequestMapping(value = "/{id}")
-    public ModelAndView showUserInfo(ModelAndView modelAndView, @PathVariable("id")int id) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Response showUserInfo(@PathVariable("id")int id) {
         RuiUserVO user = null;
         if (id >= 0) {
             user = ruiUserService.getUserById(id);
@@ -34,19 +34,14 @@ public class UserController {
         if (ObjectUtils.isEmpty(user)) {
             user = new RuiUserVO();
         }
-        modelAndView.setViewName("/user/view");
-        modelAndView.addObject("user", JSON.toJSONString(user));
-        baseUserModelSet(modelAndView);
-        return modelAndView;
+        return Response.success(user);
     }
 
-    @RequestMapping(value = "/list")
-    public ModelAndView listUsers(ModelAndView modelAndView) {
-        modelAndView.setViewName("/user/list");
+    @ResponseBody
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public Response listUsers() {
         List<RuiUserVO> userVOList = ruiUserService.getAllUser();
-        modelAndView.addObject("userList", JSON.toJSONString(userVOList));
-        baseUserModelSet(modelAndView);
-        return modelAndView;
+        return Response.success(userVOList);
     }
 
     @ResponseBody
@@ -58,12 +53,9 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public Response deleteUser(@RequestBody RuiUserVO vo) {
+    public Response deleteUser(@RequestBody RuiUserVO vo, @ModelAttribute(value = "user") RuiUserVO user) {
         ruiUserService.deleteUser(vo);
         return Response.success();
     }
 
-    private void baseUserModelSet(ModelAndView modelAndView) {
-        modelAndView.addObject("statusList", JSON.toJSONString(UserStatusEnum.getValues()));
-    }
 }
