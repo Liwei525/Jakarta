@@ -22,12 +22,10 @@ import java.util.List;
 @RequestMapping("/user/page")
 public class UserPageController extends WebAPIBaseController {
 
-    @Autowired
-    private RuiUserService ruiUserService;
-
-    @RequestMapping(value = "/view")
-    public ModelAndView showUserInfo(ModelAndView modelAndView) {
+    @RequestMapping(value = "/{id}")
+    public ModelAndView showUserInfo(ModelAndView modelAndView, @PathVariable(value = "id")int id) {
         modelAndView.setViewName("/user/view");
+        modelAndView.addObject("id", id);
         baseUserModelSet(modelAndView);
         return modelAndView;
     }

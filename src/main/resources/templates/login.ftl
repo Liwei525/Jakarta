@@ -57,7 +57,7 @@
                 }).then(function (response) {
                     console.log(response);
                     if (response.data.code == 200) {
-                        window.open('/user/list', '_self');
+                        window.open('/user/page/list', '_self');
                     } else {
                         alert(response.data.msg);
                     }

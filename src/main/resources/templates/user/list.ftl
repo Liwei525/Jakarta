@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script>
         window.INIT_APP_DATA = {
-            userList : ${userList![]},
             statusList : ${statusList![]}
         }
     </script>
@@ -72,21 +71,45 @@
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!-- import axio -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     new Vue({
         el: '#app',
         data: function() {
-            const userList = window.INIT_APP_DATA.userList;
             const statusList = window.INIT_APP_DATA.statusList;
             return {
                 visible: false,
-                userList: userList,
+                userList: [],
                 statusList: statusList,
             }
         },
+        mounted: {
+            this.userListSearch();
+        },
         methods: {
+            userListSearch() {
+                console.log('submit!');
+                axios.post('/user/ajax/list', {
+                })
+                .then(function (res) {
+                    console.log(res);
+                    this.userList = res.data.data;
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
+//                axios.get('/user/ajax/list')
+//                    .then(function(res) {
+//                        console.log(res);
+//                        this.userList = res.data.data;
+//                    })
+//                    .catch(function(err) {
+//                        alert(err);
+//                    })
+            },
             editUser(id) {
-                window.open('/user/' + id);
+                window.open('/user/page/' + id);
             }
         }
     })

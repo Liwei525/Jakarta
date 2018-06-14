@@ -38,7 +38,7 @@ public class UserAjaxController extends WebAPIBaseController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
     public Response listUsers() {
         List<RuiUserVO> userVOList = ruiUserService.getAllUser();
         return Response.success(userVOList);
